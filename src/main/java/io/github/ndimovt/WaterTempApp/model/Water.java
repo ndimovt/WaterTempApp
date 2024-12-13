@@ -1,5 +1,6 @@
 package io.github.ndimovt.WaterTempApp.model;
 
+import io.github.ndimovt.WaterTempApp.towns.Town;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Water {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "town", nullable = false, length = 60)
-    private String town;
+    private Town town;
     @Column(name = "date", updatable = false, nullable = false)
     private Date date;
     @Column(name = "temperature", nullable = false)

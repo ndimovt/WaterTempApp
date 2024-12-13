@@ -1,5 +1,6 @@
 package io.github.ndimovt.WaterTempApp.model;
 
+import io.github.ndimovt.WaterTempApp.roles.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -40,11 +41,11 @@ public class User implements UserDetails {
     @NotBlank(message = "Surname can't be blank!")
     private String surname;
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.role));
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
     @Override
