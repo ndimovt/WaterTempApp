@@ -4,6 +4,7 @@ import io.github.ndimovt.WaterTempApp.model.Water;
 import io.github.ndimovt.WaterTempApp.towns.Town;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,7 @@ public interface WaterRepository extends JpaRepository<Water, Long> {
                 AND water.town = ?
             ORDER BY water.date
             """, nativeQuery = true)
-    List<Water> findByDateAndTown(Date date, String town);
+    List<Water> findByDateAndTown(Date date, Town town);
     @Query(value = """
             SELECT *, 
                 EXTRACT(YEAR FROM water.date) AS year
@@ -34,9 +35,21 @@ public interface WaterRepository extends JpaRepository<Water, Long> {
                 AND water.town = ?
             ORDER BY water.date           
             """, nativeQuery = true)
-    Optional<Double> findByYearAndTown(Date date, String town);
-    int readExcelFile(MultipartFile file);
-    void insertRecord(Water water);
+    Optional<Double> findByYearAndTown(Date date, Town town);
+    @Query(value = """
+            INSERT INTO water(id, town, date, temperature)
+            VALUES (:id, :town, :date, :temperature)
+            ON CONFLICT(:town, :date, :temperature)
+            DO NOTHING
+            """, nativeQuery = true)
+    int insertMultipleRecords(@Param("id") long id, @Param("town") String town, @Param("date") Date date, @Param("temperature") double temperature);
+    @Query(value = """
+            INSERT INTO water(id, town, date, temperature)
+            VALUES (:id, :town, :date, :temperature)
+            ON CONFLICT(:town, :date, :temperature)
+            DO NOTHING
+            """, nativeQuery = true)
+    void insertSingleRecord(@Param("id") long id, @Param("town") String town, @Param("date") Date date, @Param("temperature") double temperature);
 
 
 

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -23,4 +24,16 @@ public class Water {
     private Date date;
     @Column(name = "temperature", nullable = false)
     private double temperature;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Water water)) return false;
+        return town == water.town && Objects.equals(date, water.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(town, date);
+    }
 }

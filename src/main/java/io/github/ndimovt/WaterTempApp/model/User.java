@@ -41,11 +41,11 @@ public class User implements UserDetails {
     @NotBlank(message = "Surname can't be blank!")
     private String surname;
     @Column(name = "role")
-    private Role role;
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.role.name()));
+        return List.of(new SimpleGrantedAuthority(this.role));
     }
 
     @Override
