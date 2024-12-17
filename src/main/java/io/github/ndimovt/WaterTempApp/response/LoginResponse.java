@@ -8,15 +8,17 @@ public class LoginResponse {
         return token;
     }
 
-    public void setToken(String token) {
+    public LoginResponse setToken(String token) {
         this.token = token;
+        return this;
     }
 
     public Long getExpiresIn() {
         return expiresIn;
     }
 
-    public void setExpiresIn(Long expiresIn) {
+    public LoginResponse setExpiresIn(Long expiresIn) {
         this.expiresIn = expiresIn;
+        return this;
     }
 }

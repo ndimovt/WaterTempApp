@@ -41,5 +41,4 @@ public class AuthService {
         return userRepository.findByUsername(loginUserDto.getUsername()).orElseThrow();
     }
 
-
 }
